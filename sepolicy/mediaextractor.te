@@ -1,0 +1,6 @@
+allow mediaextractor fuse:file getattr;
+allow mediaextractor fuse:file read;
+allow mediaextractor sysfs:file getattr;
+allow mediaextractor sysfs:file open;
+allow mediaextractor sysfs:file read;
+allow mediaextractor system_server:fifo_file write;
