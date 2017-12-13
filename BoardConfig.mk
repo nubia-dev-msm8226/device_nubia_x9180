@@ -205,6 +205,6 @@ TARGET_USERIMAGES_USE_F2FS := true
 #SKIP_BOOT_JARS_CHECK := true
 
 # SELinux
-#include device/qcom/sepolicy/sepolicy.mk
-BOARD_SEPOLICY_DIRS += device/NUBIA/NE501J/sepolicy
+-include device/qcom/sepolicy/sepolicy.mk
+-include device/qcom/sepolicy/legacy-sepolicy.mk
 
