@@ -19,7 +19,7 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 $(call inherit-product, device/NUBIA/NE501J/NE501J.mk)
 
 # Inherit some common LineageOS stuff.
-$(call inherit-product, vendor/cardinal/config/common.mk)
+$(call inherit-product, vendor/cardinal/common.ыmk)
 
 PRODUCT_NAME := cardinal_NE501J
 PRODUCT_DEVICE := NE501J
