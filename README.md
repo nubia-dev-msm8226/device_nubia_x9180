@@ -1,4 +1,5 @@
 Copyright 2015 - 2016 The CyanogenMod Project
+
 Copyright 2017 The LineageOS Project
 
 Device configuration for Nubia V5 REDBULL.
@@ -23,5 +24,5 @@ Front Camera | 5 MP
 Release Date | July 2014
 
 
-![Nubia Z7Mini](http://cdn2.gsmarena.com/vv/pics/zte/zte-redbull-v5-1.jpg "Nubia Z7Mini")
+![Nubia](http://cdn2.gsmarena.com/vv/pics/zte/zte-redbull-v5-1.jpg "Nubia")
 
