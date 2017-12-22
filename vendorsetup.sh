@@ -1,3 +1,3 @@
-add_lunch_combo cardinal_NE501J-userdebug
-add_lunch_combo cardinal_NE501J-eng
+add_lunch_combo lineage_NE501J-userdebug
+add_lunch_combo lineage_NE501J-eng
 
