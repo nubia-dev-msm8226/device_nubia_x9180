@@ -145,7 +145,7 @@ write_int(char const* path, int value)
         return amt == -1 ? -errno : 0;
     } else {
         if (already_warned == 0) {
-            ALOGE("[LIGHTS.MSM8974] write_int failed to open %s\n", path);
+            ALOGE("[LIGHTS.MSM8226] write_int failed to open %s\n", path);
             already_warned = 1;
         }
         return -errno;
@@ -167,7 +167,7 @@ read_int(char const* path, int *value)
         return amt == -1 ? -errno : 0;
     } else {
         if (already_warned == 0) {
-            ALOGE("[LIGHTS.MSM8974] read_int failed to open %s\n", path);
+            ALOGE("[LIGHTS.MSM8226] read_int failed to open %s\n", path);
             already_warned = 1;
         }
         return -errno;
@@ -189,7 +189,7 @@ write_str(char const* path, char *value)
         return amt == -1 ? -errno : 0;
     } else {
         if (already_warned == 0) {
-            ALOGE("[LIGHTS.MSM8974] write_str failed to open %s\n", path);
+            ALOGE("[LIGHTS.MSM8226] write_str failed to open %s\n", path);
             already_warned = 1;
         }
         return -errno;
@@ -215,7 +215,7 @@ set_light_backlight(struct light_device_t* dev,
     int brightness = rgb_to_brightness(state);
     pthread_mutex_lock(&g_lock);
     err = write_int(LCD_FILE, brightness);
-    ALOGD("[LIGHTS.MSM8974] lcd brightness=%d\n", brightness);
+    ALOGD("[LIGHTS.MSM8226] lcd brightness=%d\n", brightness);
     pthread_mutex_unlock(&g_lock);
     return err;
 }
@@ -232,9 +232,9 @@ set_breath_light_locked(int event_source,
 	active_states |= event_source;
     } else {
 	active_states &= ~event_source;
-	ALOGD("[LIGHTS.MSM8974] active_states=%d, last_state=%d, event_source=%d\n", active_states, last_state, event_source);
+	ALOGD("[LIGHTS.MSM8226] active_states=%d, last_state=%d, event_source=%d\n", active_states, last_state, event_source);
 	if(active_states == 0) {
-	    ALOGD("[LIGHTS.MSM8974] disabling buttons backlight\n");
+	    ALOGD("[LIGHTS.MSM8226] disabling buttons backlight\n");
 	    //write_int(BREATH_LED_LUT_FLAGS, PM_PWM_LUT_NO_TABLE); // smoothly turn led off
 	    write_int(BREATH_LED_BLINK, 0); // just turn led off
 	    last_state = BREATH_SOURCE_NONE;
@@ -252,7 +252,7 @@ set_breath_light_locked(int event_source,
     offMS = 0;
 
     if(active_states & BREATH_SOURCE_NOTIFICATION) {
-        ALOGE("[LIGHTS.MSM8974] Notification");
+        ALOGE("[LIGHTS.MSM8226] Notification");
 	state = &g_notification;
 	if (state->flashMode == LIGHT_FLASH_TIMED) {
 		onMS = state->flashOnMS;
@@ -271,7 +271,7 @@ set_breath_light_locked(int event_source,
 	if (last_state == BREATH_SOURCE_BATTERY) {
 		return 0;
 	}
-        ALOGE("[LIGHTS.MSM8974] Battery");
+        ALOGE("[LIGHTS.MSM8226] Battery");
 	state = &g_battery;
 	// can't get battery info from state, getting it from sysfs
 	int is_charging = 0;
@@ -301,9 +301,9 @@ set_breath_light_locked(int event_source,
 	}
 	last_state = BREATH_SOURCE_BATTERY;
     } else if(active_states & BREATH_SOURCE_BUTTONS) {
-        ALOGE("[LIGHTS.MSM8974] Buttons");
+        ALOGE("[LIGHTS.MSM8226] Buttons");
 	if(last_state == BREATH_SOURCE_BUTTONS) {
-          ALOGE("[LIGHTS.MSM8974] Buttons return 0");
+          ALOGE("[LIGHTS.MSM8226] Buttons return 0");
 	  return 0;
 	}
 	state = &g_buttons;
@@ -311,17 +311,17 @@ set_breath_light_locked(int event_source,
 	lut_flags = PM_PWM_LUT_RAMP_UP;
 	last_state = BREATH_SOURCE_BUTTONS;
     } else if(active_states & BREATH_SOURCE_ATTENTION) {
-	ALOGE("[LIGHTS.MSM8974] Attention");
+	ALOGE("[LIGHTS.MSM8226] Attention");
 	state = &g_attention;
 	light_template = BREATH_LED_BRIGHTNESS_NOTIFICATION;
 	last_state = BREATH_SOURCE_ATTENTION;
     } else {
       last_state = BREATH_SOURCE_NONE;
-      ALOGE("[LIGHTS.MSM8974] Unknown state");
+      ALOGE("[LIGHTS.MSM8226] Unknown state");
       return 0;
     }
 
-    ALOGD("[LIGHTS.MSM8974] writing values: light_template=%d, pause_lo=%d, pause_hi=%d, lut_flags=%d\n", light_template, offMS, onMS, lut_flags);
+    ALOGD("[LIGHTS.MSM8226] writing values: light_template=%d, pause_lo=%d, pause_hi=%d, lut_flags=%d\n", light_template, offMS, onMS, lut_flags);
 
     write_int(BREATH_LED_BLINK, 0);
     usleep(20000);
@@ -474,7 +474,7 @@ struct hw_module_t HAL_MODULE_INFO_SYM = {
     .version_major = 1,
     .version_minor = 0,
     .id = LIGHTS_HARDWARE_MODULE_ID,
-    .name = "MSM8974 lights Module",
+    .name = "MSM8226 lights Module",
     .author = "xiaofeng, modified for NX505J by PaoloW8",
     .methods = &lights_module_methods,
 };
