@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 The lineageos Project
+ * Copyright (C) 2016 The CyanogenMod Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,31 +18,46 @@ package org.lineageos.hardware;
 
 import org.lineageos.internal.util.FileUtils;
 
+import android.util.Log;
+
 public class VibratorHW {
-    private static String LEVEL_PATH = "/sys/class/timed_output/vibrator/vtg_level";
+
+    private static final String TAG = "VibratorHW";
+
+    private static final int DEFAULT_LEVEL = 60;
+    private static final int MAX_LEVEL = 127;
+    private static final int MIN_LEVEL = 10;
+    private static final int WARNING_LEVEL = 85;
+    private static final String LEVEL_PATH = "/sys/vibrator/pwmvalue";
 
     public static boolean isSupported() {
-        return FileUtils.isFileWritable(LEVEL_PATH);
+        return FileUtils.isFileWritable(LEVEL_PATH) &&
+                FileUtils.isFileReadable(LEVEL_PATH);
     }
 
     public static int getMaxIntensity()  {
-        return 31;
+        return MAX_LEVEL;
     }
 
     public static int getMinIntensity()  {
-        return 12;
+        return MIN_LEVEL;
     }
 
     public static int getWarningThreshold()  {
-        return -1;
+        return WARNING_LEVEL;
     }
 
     public static int getCurIntensity()  {
-        return Integer.parseInt(FileUtils.readOneLine(LEVEL_PATH));
+        try {
+            return Integer.parseInt(FileUtils.readOneLine(LEVEL_PATH));
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
+        }
+        return -1;
     }
 
     public static int getDefaultIntensity()  {
-        return 22;
+        return DEFAULT_LEVEL;
     }
 
     public static boolean setIntensity(int intensity)  {
